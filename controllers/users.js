@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
+import jwt, { decode } from "jsonwebtoken"
 import dotenv from "dotenv"
 import User from "../models/User.js"
 
@@ -9,7 +9,7 @@ const secret = process.env.SECRET_KEY
 export const signin = async (req, res) => {
     const { email, password } = req.body
     try {
-        const error = {error: "The username or password is incorrect."}
+        const error = {errors: "The username or password is incorrect."}
 
         const user = await User.findOne({ email }) || await User.findOne({ username: email})
         if (!user) return res.status(404).json({ error })
@@ -24,7 +24,7 @@ export const signin = async (req, res) => {
 
         res.status(200).json({ result, token })
     } catch(error) {
-        res.status(500).json({ error: "Something went wrong!" })
+        res.status(500).json({ errors: "Something went wrong!" })
     }
 }
 
@@ -51,6 +51,19 @@ export const signup = async (req, res) => {
 
         res.status(200).json({ result, token })
     } catch(error) {
-        res.status(500).json({ error: "Something went wrong!" })
+        res.status(500).json({ errors: "Something went wrong!" })
+    }
+}
+
+export const rememberedLogin = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1]
+        const decodedId = jwt.verify(token, secret)?.id
+        
+        const result = await User.findById(decodedId).select("-password")
+    
+        res.status(200).json({ result })
+    } catch(error) {
+        res.status(500).json({ errors: "Something went wrong!" })
     }
 }
