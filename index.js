@@ -17,7 +17,12 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 app.use(cors())
 
 app.use("/posts", postRoutes)
-app.use("/user", userRoutes)
+app.use("/users", userRoutes)
+
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log("MongoDB database connection established successfully.")
+})
 
 mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
