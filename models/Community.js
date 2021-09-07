@@ -1,7 +1,8 @@
 import mongoose from "mongoose"
 
-const postSchema = mongoose.Schema({
-    name: String,
+const communitySchema = mongoose.Schema({
+    name: { type: String, unique: true},
+    creator: String,
     admin: [String],
     createdAt: {
         type: Date,
@@ -9,6 +10,6 @@ const postSchema = mongoose.Schema({
     }
 })
 
-var postCommunity = mongoose.model("Community", postSchema)
+var postCommunity = mongoose.model("Community", communitySchema)
 
 export default postCommunity;
