@@ -80,10 +80,10 @@ export const likePost = async (req, res) => {
 }
 
 export const getUserPosts = async (req, res) => {
-    const { id } = req.params
+    const { username } = req.params
 
     try {
-        const posts = await PostMessage.find({ creator: id })
+        const posts = await PostMessage.find({ creator: username })
         res.status(200).json(posts)
     } catch(error) {
         res.status(404).json({ message: error.message })
