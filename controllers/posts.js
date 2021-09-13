@@ -1,10 +1,10 @@
-import PostMessage from "../models/PostMessage.js"
+import Post from "../models/Post.js"
 import mongoose from "mongoose"
 
 export const getPosts = async (req, res) => {
     try {
-        const postMessages = await PostMessage.find()
-        res.status(200).json(postMessages)
+        const post = await Post.find()
+        res.status(200).json(post)
     } catch(error) {
         res.status(404).json({ message: error.message })
     }
@@ -12,7 +12,7 @@ export const getPosts = async (req, res) => {
 
 export const createPost = async (req, res) => {
     const post = req.body
-    const newPost = new PostMessage(post)
+    const newPost = new Post(post)
 
     try {
         await newPost.save()
@@ -26,7 +26,7 @@ export const getPost = async (req, res) => {
     const { id } = req.params
 
     try {
-        const post = await PostMessage.findById(id)
+        const post = await Post.findById(id)
 
         res.status(200).json(post)
     } catch(error) {
@@ -42,7 +42,7 @@ export const updatePost = async (req, res) => {
 
     const updatedPost = {...body, _id: id}
 
-    await PostMessage.findByIdAndUpdate(id, updatedPost, { new: true })
+    await Post.findByIdAndUpdate(id, updatedPost, { new: true })
 
     res.json(updatedPost)
 }
@@ -52,7 +52,7 @@ export const deletePost = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Post not found")
 
-    await PostMessage.findByIdAndRemove(id)
+    await Post.findByIdAndRemove(id)
 
     res.json({ message: "Post succesfully deleted." })
 }
@@ -64,7 +64,7 @@ export const likePost = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Post not found")
 
-    const post = await PostMessage.findById(id)
+    const post = await Post.findById(id)
 
     const index = post.likes.findIndex(id => id === String(req.userId))
 
@@ -74,7 +74,7 @@ export const likePost = async (req, res) => {
         post.likes = post.likes.filter(id => id !== String(req.userId))
     }
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1}, { new: true })
+    const updatedPost = await Post.findByIdAndUpdate(id, { likeCount: post.likeCount + 1}, { new: true })
 
     res.json(updatedPost)
 }
@@ -83,7 +83,7 @@ export const getUserPosts = async (req, res) => {
     const { username } = req.params
 
     try {
-        const posts = await PostMessage.find({ creator: username })
+        const posts = await Post.find({ creator: username })
         res.status(200).json(posts)
     } catch(error) {
         res.status(404).json({ message: error.message })

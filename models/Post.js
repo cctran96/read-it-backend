@@ -1,5 +1,7 @@
 import mongoose from "mongoose"
 
+const { ObjectId } = mongoose.Schema.Types
+
 const postSchema = mongoose.Schema({
     title: String,
     context: String,
@@ -8,15 +10,19 @@ const postSchema = mongoose.Schema({
     community: String,
     selectedFile: String,
     likes: {
-        type: [String],
+        type: [ObjectId],
         default: []
     },
+    comments: [{
+        type: [ObjectId],
+        ref: "Comment"
+    }],
     createdAt: {
         type: Date,
         default: new Date()
     }
 })
 
-var PostMessage = mongoose.model("PostMessage", postSchema)
+var Post = mongoose.model("Post", postSchema)
 
-export default PostMessage
+export default Post
