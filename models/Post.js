@@ -13,10 +13,10 @@ const postSchema = mongoose.Schema({
         type: [ObjectId],
         default: []
     },
-    comments: [{
+    comments: {
         type: [ObjectId],
         ref: "Comment"
-    }],
+    },
     createdAt: {
         type: Date,
         default: new Date()

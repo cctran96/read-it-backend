@@ -81,7 +81,7 @@ export const likePost = async (req, res) => {
 
 export const getUserPosts = async (req, res) => {
     const { username } = req.params
-
+    
     try {
         const posts = await Post.find({ creator: username })
         res.status(200).json(posts)
