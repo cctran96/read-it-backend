@@ -48,6 +48,7 @@ export const signup = async (req, res) => {
 
         let result = JSON.parse(JSON.stringify(user))
         delete result.password
+        delete result.__v
 
         res.status(200).json({ result, token })
     } catch(error) {
@@ -60,9 +61,18 @@ export const rememberedLogin = async (req, res) => {
         const token = req.headers.authorization.split(" ")[1]
         const decodedId = jwt.verify(token, secret)?.id
         
-        const result = await User.findById(decodedId).select("-password")
+        const result = await User.findById(decodedId).select(["-password", "-__v"])
     
         res.status(200).json({ result })
+    } catch(error) {
+        res.status(500).json({ errors: "Something went wrong!" })
+    }
+}
+
+export const getUsers = async (req, res) => {
+    try {
+        const users = await User.find({}).select(["-password", "-__v"])
+        res.status(200).json({ users })
     } catch(error) {
         res.status(500).json({ errors: "Something went wrong!" })
     }

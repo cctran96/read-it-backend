@@ -79,3 +79,13 @@ export const likePost = async (req, res) => {
     res.json(updatedPost)
 }
 
+export const getUserPosts = async (req, res) => {
+    const { username } = req.params
+
+    try {
+        const posts = await PostMessage.find({ creator: username })
+        res.status(200).json(posts)
+    } catch(error) {
+        res.status(404).json({ message: error.message })
+    }
+}
