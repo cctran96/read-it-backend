@@ -37,3 +37,46 @@ export const getCommunity = async (req, res) => {
         res.status(400).json({ message: error.message })
     }
 }
+
+export const updateCommunity = async (req, res) => {
+    const { id } = req.params
+    const body = req.body
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Community not found")
+
+    const updatedCommunity = {...body, _id: id}
+
+    await Community.findByIdAndUpdate(id, updatedCommunity, {new: true})
+
+    res.json(updatedCommunity)
+}
+
+export const deleteCommunity = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Community not found")
+
+    await Community.findByIdAndRemove(id)
+
+    res.json({ message: "Community Successfully deleted." })
+}
+
+export const joinCommunity = async (req, res) => {
+    const { id } = req.params
+
+    if(!req.userId) return res.json({ message: "Unauthenticated"})
+
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Community not found")
+
+    const community = await Community.findById(id)
+
+    const index = Community.admin.findIndex(id => id === String(req.userId))
+
+    if(index === -1) {
+        community.admin.push(req.userId)
+    } else {
+        community.admin = community.admin.filter(id => id !== String(req.userId))
+    }
+
+    const 
+}

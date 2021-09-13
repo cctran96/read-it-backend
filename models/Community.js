@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 const communitySchema = mongoose.Schema({
     name: { type: String, unique: true},
     creator: String,
+    image: String,
     admin: [String],
     createdAt: {
         type: Date,
