@@ -5,6 +5,7 @@ import bodyParser from "body-parser"
 import cors from "cors"
 import postRoutes from "./routes/posts.js"
 import userRoutes from "./routes/users.js"
+import communityRoutes from "./routes/communities.js"
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ app.use(cors())
 
 app.use("/posts", postRoutes)
 app.use("/users", userRoutes)
+app.use("/communities", communityRoutes)
 
 const connection = mongoose.connection;
 connection.once('open', () => {
