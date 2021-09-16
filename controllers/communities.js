@@ -12,12 +12,14 @@ export const getCommunities = async (req, res) => {
 
 export const createCommunity = async (req, res) => {
     const community = req.body
+
     try {
-        const existingName = await Community.findOne({ name })
-        if (existingName) res.status(400).json({ message: "Community name already exist." })
+        const existingName = await Community.findOne({ name: community.name })
+        console.log(existingName)
+        if (existingName) return res.status(400).json({ message: "Community name already exist." })
 
         const newCommunity = await Community.create(community)
-        console.log(newCommunity)
+        // console.log(newCommunity)
         res.status(201).json(newCommunity)
     } catch(error) {
         res.status(500).json({ message: error.message })
