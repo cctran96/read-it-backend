@@ -4,12 +4,8 @@ const { ObjectId } = mongoose.Schema.Types
 
 const communitySchema = mongoose.Schema({
     name: String, 
-    creator: {
-        type: ObjectId,
-        ref: 'User'
-    },
     image: String,
-    admin: [{
+    users: [{
         type: ObjectId,
         ref: 'User'
     }],
