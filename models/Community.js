@@ -9,10 +9,6 @@ const communitySchema = mongoose.Schema({
         type: ObjectId,
         ref: 'User'
     }],
-    posts: [{
-        type: ObjectId,
-        ref: 'Post'
-    }],
     createdAt: {
         type: Date,
         default: new Date()
