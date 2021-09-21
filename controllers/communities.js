@@ -15,7 +15,7 @@ export const createCommunity = async (req, res) => {
 
     try {
         const existingName = await Community.findOne({ name: community.name })
-        console.log(existingName)
+        // console.log(existingName)
         if (existingName) return res.status(400).json({ message: "Community name already exist." })
 
         const newCommunity = await Community.create(community)
