@@ -7,6 +7,7 @@ import postRoutes from "./routes/posts.js"
 import userRoutes from "./routes/users.js"
 import chatRoutes from "./routes/chats.js"
 import messageRoutes from "./routes/messages.js"
+import communityRoutes from "./routes/communities.js"
 
 dotenv.config()
 
@@ -22,6 +23,7 @@ app.use("/posts", postRoutes)
 app.use("/users", userRoutes)
 app.use("/chats", chatRoutes)
 app.use("/messages", messageRoutes)
+app.use("/communities", communityRoutes)
 
 const connection = mongoose.connection;
 connection.once('open', () => {

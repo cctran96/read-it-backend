@@ -1,10 +1,14 @@
 import mongoose from "mongoose"
 
+const { ObjectId } = mongoose.Schema.Types
+
 const communitySchema = mongoose.Schema({
-    name: { type: String, unique: true},
-    creator: String,
+    name: String, 
     image: String,
-    admin: [String],
+    users: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
     createdAt: {
         type: Date,
         default: new Date()

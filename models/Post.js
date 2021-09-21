@@ -5,9 +5,15 @@ const { ObjectId } = mongoose.Schema.Types
 const postSchema = mongoose.Schema({
     title: String,
     context: String,
-    creator: String,
+    creator: {
+        type: ObjectId,
+        ref: "User"
+    },
     type: String,
-    community: String,
+    community: {
+        type: ObjectId,
+        ref: 'Community'
+    },
     selectedFile: String,
     likes: {
         type: [ObjectId],
