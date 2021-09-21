@@ -1,5 +1,4 @@
 import Community from "../models/Community.js"
-import mongoose from "mongoose"
 
 export const getCommunities = async (req, res) => {
     try {
