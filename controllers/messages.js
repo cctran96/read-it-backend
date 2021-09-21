@@ -15,7 +15,9 @@ export const getMessages = async (req,res) => {
 export const createMessage = async (req, res) => {
     try {
         const message = req.body
-        const newMsg = Message.create(message)
+
+        const newMsg = await Message.create(message)
+
         res.status(201).json(newMsg)
     } catch(error) {
         res.status(409).json({ error: error.message })
