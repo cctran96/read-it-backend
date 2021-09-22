@@ -9,7 +9,7 @@ const secret = process.env.SECRET_KEY
 export const signin = async (req, res) => {
     const { email, password } = req.body
     try {
-        const error = {errors: "The username or password is incorrect."}
+        const error = {both: "The username or password is incorrect."}
 
         const user = await User.findOne({ email }) || await User.findOne({ username: email})
         if (!user) return res.status(404).json({ error })
@@ -20,7 +20,7 @@ export const signin = async (req, res) => {
         let result = JSON.parse(JSON.stringify(user))
         delete result.password
 
-        const token = jwt.sign({ id: user._id }, secret, { expiresIn: "8h" })
+        const token = jwt.sign({ id: user._id }, secret, { expiresIn: "24h" })
 
         res.status(200).json({ result, token })
     } catch(error) {
