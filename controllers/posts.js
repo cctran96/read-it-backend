@@ -13,6 +13,15 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
     const post = req.body
     const newPost = new Post(post)
+    let errors = {}
+
+    if (!post.community) errors.community = "Community must exist."
+
+    if (!post.title) errors.title = "Post requires a title to submit."
+
+    if (!post.context) errors.context = "Context must exist."
+
+    if(Object.keys(errors).length) return res.status(400).json({ errors })
 
     try {
         await newPost.save()
