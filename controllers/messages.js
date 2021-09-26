@@ -21,7 +21,7 @@ export const createMessage = async (req, res) => {
 
         const chat = await Chat.findByIdAndUpdate(newMsg.chat, { lastMessage: newMsg }, { new: true })
 
-        res.status(201).json(newMsg)
+        res.status(201).json({ message: newMsg, chat })
     } catch(error) {
         res.status(409).json({ error: error.message })
     }

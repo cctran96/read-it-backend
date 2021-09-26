@@ -8,10 +8,7 @@ const chatSchema = mongoose.Schema({
         type: ObjectId,
         ref: "User"
     }],
-    lastMessage: {
-        type: ObjectId,
-        ref: "Message"
-    }
+    lastMessage: mongoose.SchemaTypes.Mixed
 }, {
     timestamps: true
 })

@@ -30,13 +30,14 @@ io.on("connection", socket => {
     })
 
     // Send and get message
-    socket.on("sendMessage", ({ receiverId, message }) => {
+    socket.on("sendMessage", ({ receiverId, message, chat }) => {
         console.log(users, receiverId)
         const user = getUser(receiverId)
         console.log(user)
         if (user) {
             io.to(user.socketId).emit("getMessage", {
-                message
+                message,
+                chat
             })
         }
     })
