@@ -1,4 +1,5 @@
 import Message from "../models/Message.js"
+import Chat from "../models/Chat.js"
 
 export const getMessages = async (req,res) => {
     try {
@@ -18,7 +19,9 @@ export const createMessage = async (req, res) => {
 
         const newMsg = await Message.create(message)
 
-        res.status(201).json(newMsg)
+        const chat = await Chat.findByIdAndUpdate(newMsg.chat, { lastMessage: newMsg }, { new: true })
+
+        res.status(201).json({ message: newMsg, chat })
     } catch(error) {
         res.status(409).json({ error: error.message })
     }
