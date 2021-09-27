@@ -9,6 +9,6 @@ router.post("/", auth, createCommunity)
 router.get("/:id", getCommunity)
 router.patch(":/id", auth, updateCommunity)
 router.delete("/:id", auth, deleteCommunity)
-router.patch("/:id/like", auth, joinCommunity)
+router.patch("/:id/join", auth, joinCommunity)
 
 export default router;
