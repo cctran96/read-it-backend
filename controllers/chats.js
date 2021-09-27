@@ -1,4 +1,5 @@
 import Chat from "../models/Chat.js"
+import Message from "../models/Message.js"
 
 export const getChats = async (req, res) => {
     const { id } = req.params
@@ -13,9 +14,24 @@ export const getChats = async (req, res) => {
 
 export const createChat = async (req, res) => {
     try {
-        const chat = req.body
-        const newChat = await Chat.create(chat)
-        res.status(201).json(newChat)
+        const body = req.body
+        
+        const newChat = {
+            title: body.title, 
+            users: body.users
+        }
+
+        const chat = await Chat.create(newChat)
+
+        const newMessage = {...body.message, chat: chat._id }
+
+        const message = await Message.create(newMessage)
+
+        chat.lastMessage = message
+
+        await chat.save()
+
+        res.status(201).json(chat)
     } catch(error) {
         res.status(409).json({ error: error.message })
     }
